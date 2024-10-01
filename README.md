@@ -49,10 +49,33 @@ while True:
 
 ## PROGRAM - RARP
 ## CLIENT 
+import socket
+s=socket.socket()
+s.bind(('localhost',9000))
+s.listen(5)
+c,addr=s.accept()
+address={"6A:08:AA:C2":"192.168.1.100","8A:BC:E3:FA":"192.168.1.99"};
+while True:
+       ip=c.recv(1024).decode()
+       try:
+          c.send(address[ip].encode())
+       except KeyError:
+         c.send("Not Found".encode())
 ## SERVER
+import socket
+s=socket.socket()
+s.connect(('localhost',9000))
+while True:
+ ip=input("Enter MAC Address : ")
+ s.send(ip.encode())
+ print("Logical Address",s.recv(1024).decode())
 ## OUPUT -RARP
 ## CLIENT 
+![Screenshot 2024-10-01 091903](https://github.com/user-attachments/assets/9d838507-99d8-4719-8ed7-1e668ea2a6d6)
+
 ## SERVER
+![Screenshot 2024-10-01 091915](https://github.com/user-attachments/assets/7985ca80-87cc-423c-af72-e00f546d51df)
+
 
 
 
